@@ -27,7 +27,8 @@ body{
 #background{
     position:absolute;
     inset:0;
-    background:linear-gradient(#dff4ff,#fff7db);
+    background:
+        radial-gradient(circle at top, #ffffff 0%, #dff4ff 50%, #b8dff7 100%);
 }
 
 #monika{
@@ -39,43 +40,40 @@ body{
 }
 
 #textbox{
-
     position:absolute;
     left:20px;
     right:20px;
     bottom:20px;
 
-    background:white;
+    background:rgba(255,255,255,0.95);
     border-radius:15px;
+    padding:18px;
 
-    padding:15px;
-
-    font-size:20px;
-
-}   /* <-- THIS was missing */
+    font-size:22px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.15);
+}
 
 #talkButton{
-
     position:absolute;
-
-    bottom:90px;
-
+    bottom:120px;
     right:20px;
 
-    padding:12px 22px;
-
+    padding:12px 24px;
     font-size:18px;
 
     border:none;
-
     border-radius:12px;
 
-    cursor:pointer;
-
-    background:#72d67b;
-
+    background:#6d83c9;
     color:white;
 
+    cursor:pointer;
+    transition:0.2s;
+}
+
+#talkButton:hover{
+    background:#8799d9;
+    transform:scale(1.05);
 }
 </style>
 
@@ -89,7 +87,7 @@ body{
 
 <img
 id="monika"
-src="https://static.wikia.nocookie.net/doki-doki-literature-club/images/f/f2/Monika_Forward.png"
+src="monika.png"
 />
 
 <div id="textbox">
@@ -127,9 +125,19 @@ function talk(){
 
 const random = Math.floor(Math.random() * lines.length);
 
-dialogue.textContent = lines[random];
+let i = 0;
+dialogue.textContent = "";
 
-}
+const text = lines[random];
+
+const typing = setInterval(() => {
+    dialogue.textContent += text[i];
+    i++;
+
+    if (i >= text.length) {
+        clearInterval(typing);
+    }
+}, 35);
 
 </script>
 </body>
