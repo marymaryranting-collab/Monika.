@@ -39,6 +39,7 @@ body{
 }
 
 #textbox{
+
     position:absolute;
     left:20px;
     right:20px;
@@ -50,6 +51,31 @@ body{
     padding:15px;
 
     font-size:20px;
+
+}   /* <-- THIS was missing */
+
+#talkButton{
+
+    position:absolute;
+
+    bottom:90px;
+
+    right:20px;
+
+    padding:12px 22px;
+
+    font-size:18px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    background:#72d67b;
+
+    color:white;
+
 }
 </style>
 
@@ -67,10 +93,44 @@ src="https://static.wikia.nocookie.net/doki-doki-literature-club/images/f/f2/Mon
 />
 
 <div id="textbox">
-Hi! I'm Monika! 💚
+    <span id="dialogue">
+        Hi! I'm Monika! 💚
+    </span>
 </div>
-
+    <button id="talkButton" onclick="talk()">
+Talk
+</button>
 </div>
+<script>
 
+const dialogue = document.getElementById("dialogue");
+
+const lines = [
+
+"Hi again! 💚",
+
+"I'm really happy you're here.",
+
+"I've been thinking about writing another poem.",
+
+"I wonder what you're doing today.",
+
+"Thanks for spending time with me.",
+
+"Sometimes I like just watching the clouds.",
+
+"I hope you're taking care of yourself. 🌸"
+
+];
+
+function talk(){
+
+const random = Math.floor(Math.random() * lines.length);
+
+dialogue.textContent = lines[random];
+
+}
+
+</script>
 </body>
 </html>
