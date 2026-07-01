@@ -74,6 +74,38 @@ body{
 #talkButton:hover{
     background:#8799d9;
     transform:scale(1.05);
+#chatLog{
+    max-height:180px;
+    overflow-y:auto;
+    font-size:20px;
+}
+
+.user{
+    color:#4a6cff;
+    margin-bottom:10px;
+}
+
+.monika{
+    color:#2b8a3e;
+    margin-bottom:20px;
+}
+#chatLog{
+    position:absolute;
+    left:20px;
+    right:20px;
+    top:20px;
+    height:180px;
+
+    overflow-y:auto;
+
+    background:rgba(255,255,255,.7);
+
+    border-radius:15px;
+
+    padding:15px;
+
+    font-size:16px;
+}
 }
 </style>
 
@@ -91,17 +123,23 @@ src="monika.png"
 />
 
 <div id="textbox">
-    <span id="dialogue">
-        Hi! I'm Monika! 💚
-    </span>
+    <span id="dialogue">Hi! I'm Monika! 💚</span>
 </div>
-    <button id="talkButton" onclick="talk()">
-Talk
-</button>
+
+<div id="chatLog"></div>
+
+<div id="inputArea">
+    <input
+        id="userInput"
+        type="text"
+        placeholder="Say something to Monika..."
+    >
+    <button onclick="talk()">Send</button>
 </div>
 <script>
 
 const dialogue = document.getElementById("dialogue");
+const chatLog = document.getElementById("chatLog");
 
 const lines = [
 
@@ -121,23 +159,25 @@ const lines = [
 
 ];
 
-function talk(){
+function talk() {
 
-const random = Math.floor(Math.random() * lines.length);
+    const input = document.getElementById("userInput").value;
 
-let i = 0;
-dialogue.textContent = "";
+    if (input.trim() === "") return;
 
-const text = lines[random];
+    chatLog.innerHTML += "<p><b>You:</b> " + input + "</p>";
 
-const typing = setInterval(() => {
-    dialogue.textContent += text[i];
-    i++;
+    const random = Math.floor(Math.random() * lines.length);
+    const reply = lines[random];
 
-    if (i >= text.length) {
-        clearInterval(typing);
-    }
-}, 35);
+    setTimeout(() => {
+        chatLog.innerHTML += "<p><b>Monika:</b> " + reply + "</p>";
+        chatLog.scrollTop = chatLog.scrollHeight;
+    }, 500);
+
+    document.getElementById("userInput").value = "";
+
+}
 
 </script>
 </body>
