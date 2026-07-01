@@ -1,111 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Monika After Story (Web)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Monika</title>
 
 <style>
 body{
     margin:0;
-    background:#bfe7ff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    font-family:Arial;
+    background:#d9efff;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 #room{
     width:900px;
-    height:500px;
+    max-width:95%;
+    margin:30px auto;
     background:white;
     border-radius:20px;
-    position:relative;
-    overflow:hidden;
-}
-
-#background{
-    position:absolute;
-    inset:0;
-    background:
-        radial-gradient(circle at top, #ffffff 0%, #dff4ff 50%, #b8dff7 100%);
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
 
 #monika{
-    position:absolute;
-    bottom:60px;
-    left:50%;
-    transform:translateX(-50%);
-    height:380px;
+    display:block;
+    margin:auto;
+    max-height:350px;
 }
 
-#textbox{
-    position:absolute;
-    left:20px;
-    right:20px;
-    bottom:20px;
-
-    background:rgba(255,255,255,0.95);
-    border-radius:15px;
-    padding:18px;
-
-    font-size:22px;
-    box-shadow:0 8px 25px rgba(0,0,0,0.15);
-}
-
-#talkButton{
-    position:absolute;
-    bottom:120px;
-    right:20px;
-
-    padding:12px 24px;
-    font-size:18px;
-
-    border:none;
-    border-radius:12px;
-
-    background:#6d83c9;
-    color:white;
-
-    cursor:pointer;
-    transition:0.2s;
-}
-
-#talkButton:hover{
-    background:#8799d9;
-    transform:scale(1.05);
 #chatLog{
-    max-height:180px;
+    height:280px;
     overflow-y:auto;
-    font-size:20px;
+    border:1px solid #ddd;
+    border-radius:15px;
+    padding:15px;
+    background:#fafafa;
+    margin-top:20px;
 }
 
 .user{
-    color:#4a6cff;
-    margin-bottom:10px;
+    text-align:right;
+    margin:10px;
+    color:#2563eb;
 }
 
 .monika{
-    color:#2b8a3e;
-    margin-bottom:20px;
+    text-align:left;
+    margin:10px;
+    color:#16a34a;
 }
-#chatLog{
-    position:absolute;
-    left:20px;
-    right:20px;
-    top:20px;
-    height:180px;
 
-    overflow-y:auto;
+#inputArea{
+    display:flex;
+    margin-top:20px;
+    gap:10px;
+}
 
-    background:rgba(255,255,255,.7);
-
-    border-radius:15px;
-
-    padding:15px;
-
+#userInput{
+    flex:1;
+    padding:12px;
+    border-radius:12px;
+    border:1px solid #bbb;
     font-size:16px;
 }
+
+button{
+    padding:12px 20px;
+    border:none;
+    border-radius:12px;
+    background:#8b8cff;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#7273ff;
 }
 </style>
 
@@ -115,33 +86,28 @@ body{
 
 <div id="room">
 
-<div id="background"></div>
+<img id="monika" src="monika.png">
 
-<img
-id="monika"
-src="monika.png"
-/>
-
-<div id="textbox">
-    <span id="dialogue">Hi! I'm Monika! 💚</span>
+<div id="chatLog">
+<div class="monika"><b>Monika:</b> Hi! I'm Monika 💚</div>
 </div>
-
-<div id="chatLog"></div>
 
 <div id="inputArea">
-    <input
-        id="userInput"
-        type="text"
-        placeholder="Say something to Monika..."
-    >
-    <button onclick="talk()">Send</button>
+<input
+id="userInput"
+type="text"
+placeholder="Say something to Monika..."
+>
+
+<button onclick="talk()">Send</button>
+
 </div>
+
+</div>
+
 <script>
 
-const dialogue = document.getElementById("dialogue");
-const chatLog = document.getElementById("chatLog");
-
-const lines = [
+const replies=[
 
 "Hi again! 💚",
 
@@ -149,36 +115,61 @@ const lines = [
 
 "I've been thinking about writing another poem.",
 
-"I wonder what you're doing today.",
+"I wonder what you're’re doing today.",
 
 "Thanks for spending time with me.",
 
-"Sometimes I like just watching the clouds.",
+"Sometimes I like watching the clouds.",
 
-"I hope you're taking care of yourself. 🌸"
+"I hope you're taking care of yourself. 🌸",
+
+"I'd love to hear more about that.",
+
+"That made me smile.",
+
+"Tell me more."
 
 ];
 
-function talk() {
+function talk(){
 
-    const input = document.getElementById("userInput").value;
+const input=document.getElementById("userInput");
 
-    if (input.trim() === "") return;
+const chat=document.getElementById("chatLog");
 
-    chatLog.innerHTML += "<p><b>You:</b> " + input + "</p>";
+const text=input.value.trim();
 
-    const random = Math.floor(Math.random() * lines.length);
-    const reply = lines[random];
+if(text==="") return;
 
-    setTimeout(() => {
-        chatLog.innerHTML += "<p><b>Monika:</b> " + reply + "</p>";
-        chatLog.scrollTop = chatLog.scrollHeight;
-    }, 500);
+chat.innerHTML+=`<div class="user"><b>You:</b> ${text}</div>`;
 
-    document.getElementById("userInput").value = "";
+input.value="";
+
+chat.scrollTop=chat.scrollHeight;
+
+const reply=replies[Math.floor(Math.random()*replies.length)];
+
+setTimeout(()=>{
+
+chat.innerHTML+=`<div class="monika"><b>Monika:</b> ${reply}</div>`;
+
+chat.scrollTop=chat.scrollHeight;
+
+},600);
 
 }
 
+document.getElementById("userInput").addEventListener("keydown",function(e){
+
+if(e.key==="Enter"){
+
+talk();
+
+}
+
+});
+
 </script>
+
 </body>
 </html>
